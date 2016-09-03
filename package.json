@@ -1,7 +1,7 @@
 {
-  "name": "vuec",
+  "name": "vueb",
   "version": "0.0.1",
-  "description": "Vue.js component browser library that makes it easy for developers to prototype without s build tool.",
+  "description": "Vue.js component browser library that makes it easy for developers to prototype without build tool.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,7 @@
   "author": "Jamey McElveen <jamey@mcelveen.us>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jameymcelveen/vuec/issues"
+    "url": "https://github.com/jameymcelveen/vueb/issues"
   },
-  "homepage": "https://github.com/jameymcelveen/vuec#readme"
+  "homepage": "https://github.com/jameymcelveen/vueb#readme"
 }
