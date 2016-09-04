@@ -1,0 +1,17 @@
+{
+  "name": "vueb",
+  "description": "Vue.js component browser library that makes it easy for developers to prototype without build tool.",
+  "main": "index.js",
+  "authors": [
+    "Jamey McElveen <jamey@mcelveen.us>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jameymcelveen/vueb",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
