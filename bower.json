@@ -1,6 +1,6 @@
 {
   "name": "vueb",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Include *.vue components in browser without a build step.",
   "main": "dist/vueb.js",
   "authors": [
