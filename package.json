@@ -1,6 +1,6 @@
 {
   "name": "vueb",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Include *.vue components in browser without a build step.",
   "main": "index.js",
   "homepage": "https://github.com/jameymcelveen/vueb#readme",
