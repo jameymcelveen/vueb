@@ -37,6 +37,10 @@ module.exports = function(grunt) {
         command: 'npm publish',
         stdout: true
       },
+      publish_bower: {
+        command: 'bower register example git://github.com/jameymcelveen/vuec.git',
+        stdout: true
+      }
     },
     // endregion PUBLISH
     ////////////////////////////////////////
@@ -90,10 +94,11 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['jshint', 'rollup']);
   grunt.registerTask('publish_npm', ['exec:publish_npm']);
+  grunt.registerTask('publish_bower', ['exec:publish_bower']);
   grunt.registerTask('deploy', ['build', 'bump'], function() {
     console.log('deploy');
   });
-  grunt.registerTask('publish', ['publish_npm'], function() {
+  grunt.registerTask('publish', ['publish_npm', 'publish_bower'], function() {
     console.log('publish');
   });
   // endregion REGISTER TASK
