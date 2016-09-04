@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jameymcelveen/vueb/issues"
   },
-  "homepage": "https://github.com/jameymcelveen/vueb#readme"
+  "homepage": "https://github.com/jameymcelveen/vueb#readme",
+  "devDependencies": {
+    "publish": "^0.6.0"
+  }
 }
