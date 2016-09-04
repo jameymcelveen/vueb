@@ -8,7 +8,7 @@
 
 ## Purpose   
 > vueb.js exist for quick prototyping and development!    
-As a fundamental necessity vueb.js **dangerously** executes functions as eval.   
+As a fundamental necessity vueb.js **dangerously** [executes functions as eval](https://github.com/jameymcelveen/vueb/search?utf8=%E2%9C%93&q=%2F*jshint+-W054+*%2F).   
    
 vueb.js should only be used for development or prototyping never for release or production you can build using vueb-cli or your favorite build method.   
 ```
