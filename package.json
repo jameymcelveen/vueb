@@ -8,8 +8,6 @@
   "author": "Jamey McElveen <jamey@mcelveen.us>",
   "license": "MIT",
   "scripts": {
-    "2npm": "publish",
-    "2bower": "bower register vueb git://github.com/jameymcelveen/vueb.git",
     "test": "echo \"none yet\"",
     "publish": "grunt publish"
   },

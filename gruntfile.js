@@ -82,8 +82,17 @@ module.exports = function(grunt) {
   // region REGISTER TASK
   grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['jshint', 'rollup']);
-  grunt.registerTask('publish', ['build', 'bump']);
+  grunt.registerTask('publish', ['build', 'bump'], function() {
+    console.log('publish');
+  });
   // endregion REGISTER TASK
   ////////////////////////////////////////
 
 };
+
+
+/*
+ git config --global user.email "you@example.com"
+ "2npm": "grunt publish",
+ "2bower": "bower register vueb git://github.com/jameymcelveen/vueb.git",
+ */
