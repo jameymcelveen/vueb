@@ -1,6 +1,6 @@
 {
   "name": "vueb",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Include *.vue components in browser without a build step.",
   "main": "index.js",
   "homepage": "https://github.com/jameymcelveen/vueb#readme",
@@ -26,6 +26,7 @@
     "grunt-bump": "^0.8.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-exec": "^1.0.0",
     "grunt-rollup": "^0.8.0",
     "publish": "^0.6.0",
     "rollup": "^0.34.13",
