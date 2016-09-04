@@ -1,24 +1,33 @@
 {
   "name": "vueb",
-  "version": "0.0.3",
-  "description": "Vue.js component browser library that makes it easy for developers to prototype without build tool.",
+  "version": "0.0.4",
+  "description": "Include *.vue components in browser without a build step.",
   "main": "index.js",
+  "homepage": "https://github.com/jameymcelveen/vueb#readme",
+  "keywords": [],
+  "author": "Jamey McElveen <jamey@mcelveen.us>",
+  "license": "MIT",
   "scripts": {
     "2npm": "publish",
+    "2bower": "bower register vueb git://github.com/jameymcelveen/vueb.git",
     "test": "echo \"none yet\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jameymcelveen/vuec.git"
   },
-  "keywords": [],
-  "author": "Jamey McElveen <jamey@mcelveen.us>",
-  "license": "MIT",
+  "jshintConfig": {
+    "esversion": 6
+  },
   "bugs": {
     "url": "https://github.com/jameymcelveen/vueb/issues"
   },
-  "homepage": "https://github.com/jameymcelveen/vueb#readme",
   "devDependencies": {
-    "publish": "^0.6.0"
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "publish": "^0.6.0",
+    "rollup": "^0.34.13",
+    "rollup-plugin-buble": "^0.13.0"
   }
 }

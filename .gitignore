@@ -1,7 +1,12 @@
 # node
 node_modules
 *.log
-npm-debug.log*
+
+# bower
+bower_components
 
 # ide
 .idea
+
+# scratch work
+scratch
