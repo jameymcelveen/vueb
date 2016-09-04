@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         stdout: true
       },
       publish_bower: {
-        command: 'bower register example git://github.com/jameymcelveen/vuec.git',
+        command: 'bower register vueb git://github.com/jameymcelveen/vuec.git',
         stdout: true
       }
     },
