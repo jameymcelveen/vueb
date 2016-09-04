@@ -32,6 +32,12 @@ module.exports = function(grunt) {
         regExp: false
       }
     },
+    exec: {
+      publish_npm: {
+        command: 'npm publish',
+        stdout: true
+      },
+    },
     // endregion PUBLISH
     ////////////////////////////////////////
 
@@ -75,6 +81,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-rollup');
+  grunt.loadNpmTasks('grunt-exec');
   // endregion REGISTER TASK
   ////////////////////////////////////////
 
@@ -82,7 +89,11 @@ module.exports = function(grunt) {
   // region REGISTER TASK
   grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['jshint', 'rollup']);
-  grunt.registerTask('publish', ['build', 'bump'], function() {
+  grunt.registerTask('publish_npm', ['exec:publish_npm']);
+  grunt.registerTask('deploy', ['build', 'bump'], function() {
+    console.log('deploy');
+  });
+  grunt.registerTask('publish', ['publish_npm'], function() {
     console.log('publish');
   });
   // endregion REGISTER TASK
