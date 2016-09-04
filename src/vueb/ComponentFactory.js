@@ -17,9 +17,9 @@ export default class ComponentFactory {
         let template = TemplateParser.parse(data);
         let script = mutateScript(src, template);
         console.log(script);
-        /*jshint -W054 */
-        /*
-         * Executing functions as eval is fundamental to vueb.
+
+        /* jshint -W054 */
+        /* Executing functions as eval is fundamental to vueb.
          *
          * vueb.js should only be used for development or prototyping never for release or
          * production you can build using vueb-cli or your favorite build method.
@@ -28,8 +28,10 @@ export default class ComponentFactory {
          * # vueb <input html file> -o <output directory>
          * # ex: $ vueb ./index.html -o ./dist
          * ```
-         * /
+         */
+
         let func = new Function('Vue', script);
+
         /*jshint +W054 */
         if(template.style) {
           Utils.injectStyle(template.style);

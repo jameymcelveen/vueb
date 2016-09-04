@@ -36,7 +36,7 @@ let VueComponent = (() => {
     var index = srcs2.indexOf(src);
     srcs2.splice(index, 1);
     if(srcs2.length === 0){
-      new Vue({el:'body'});
+      new Vue({el:'html'});
     }
   });
   }

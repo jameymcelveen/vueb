@@ -1,0 +1,13 @@
+{
+  "deps": [
+    "assets/deps/bootstrap.json",
+    "assets/deps/vueb.json"
+  ]
+  "styles": [
+    "assets/style/starter-template.css"
+  ],
+  "scripts": [
+    "components/container.vue": { "type": "vue/component" },
+    "components/nav-bar.vue": { "type": "vue/component" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "icons": [
+    "assets/lib/bootstrap/favicon.ico"
+  ],
+  "styles": [
+    "assets/lib/bootstrap.css"
+  ],
+  "scripts": [
+    "assets/lib/jquery.js",
+    "assets/lib/bootstrap.js"
+  ]
+}
