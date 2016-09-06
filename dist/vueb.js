@@ -38,6 +38,8 @@ var VueB = (function () {
   var SCRIPT_END = '</script>';
   var STYLE_START = '<style>';
   var STYLE_END = '</style>';
+  //const IMPORT_DEFAULT = /\s*import\s+(\S+)\s+from\s+['"](\S+)["'].*/g;
+  var IMPORT_DEFAULT = /\s*import\s+(\S+)\s+from\s+['"](\S+)["'].*/;
 
   var TemplateParser = function TemplateParser () {};
 
@@ -72,6 +74,11 @@ var VueB = (function () {
       } else if (inTemplete) {
         template.push(line);
       } else if (inScript) {
+        if(line.match(IMPORT_DEFAULT)) {
+          console.log('match');
+          line = line.replace(IMPORT_DEFAULT, "// var $1 = require('$2');");
+          console.log(line);
+        }
         script.push( line );
       } else if (inStyle) {
         style.push(line);
@@ -79,9 +86,9 @@ var VueB = (function () {
     }
 
     return {
-      template: template.join(''),
-      script: script.join('\n'),
-      style: style.join('\n')
+      template: template,
+      script: script,
+      style: style
     };
 
   };
@@ -121,49 +128,83 @@ var VueB = (function () {
   var ComponentFactory = function ComponentFactory () {};
 
   ComponentFactory.build = function build (src, callback) {
+
+    // if(components[src]) {
+    // callback(components[src]);
+    // return;
+    // }
+
     Http.GET(src, function (data, err) {
       if(err) {
         console.error(err);
         callback(null);
       } else {
         var template = TemplateParser.parse(data);
-        var script = mutateScript(src, template);
-        console.log(script);
-
-        /* jshint -W054 */
-        /* Executing functions as eval is fundamental to vueb.
-         *
-         * vueb.js should only be used for development or prototyping never for release or
-         * production you can build using vueb-cli or your favorite build method.
-         * ```
-         * # **vueb-cli usage:**
-         * # vueb <input html file> -o <output directory>
-         * # ex: $ vueb ./index.html -o ./dist
-         * ```
-         */
-
-        var func = new Function('Vue', script);
-
-        /*jshint +W054 */
+        var componentName = src.substring(src.lastIndexOf('/')+1).split('.')[0];
+        var objectName = snakeToCamel(componentName);
+        var script = mutateScript(src, componentName, objectName, template);
         if(template.style) {
-          Utils.injectStyle(template.style);
+          Utils.injectStyle(template.style.join('\n'));
         }
+
+        //console.log(script);
+
+        var func = createModuleFunctionFromScript(script);
+
         callback(func);
       }
     });
   };
 
-  function mutateScript(url, template) {
-    var componentName = url.substring(url.lastIndexOf('/')+1).split('.')[0];
-    var objectName = snakeToCamel(componentName);
-    console.log(JSON.stringify(template));
-    var rx = /(^\s*)(?:export\s+default|module\.exports\s*=)\s*{(.*)/g;
-    var replacement = '$1var ' + objectName + ' = {$2';
-    var script =  template.script || 'export default {}';
-      script = script.replace(rx, replacement);
-    var t = template.template.replace(/"/g, "\\\"");
-    script += '\n\n' + objectName + '.template = "' + t + '";\n'+
-      'Vue.component("'+componentName+'", '+objectName+');';
+  function createModuleFunctionFromScript(script) {
+    /* jshint -W054 */
+    /* Executing functions as eval is fundamental to vueb.
+     *
+     * vueb.js should only be used for development or prototyping never for release or
+     * production you can build using vueb-cli or your favorite build method.
+     * ```
+     * # **vueb-cli usage:**
+     * # vueb <input html file> -o <output directory>
+     * # ex: $ vueb ./index.html -o ./dist
+     * ```
+     */
+
+    var func = new Function('module', 'require', script);
+
+    /*jshint +W054 */
+
+    return func;
+  }
+
+  function mutateScript(url, componentName, objectName, template) {
+
+    var
+      rx = /(^\s*)(?:export\s+default|module\.exports\s*=)\s*{(.*)/g,
+      layout = '',
+      replacement = '$1var ' + objectName + ' = {$2',
+      script =  template.script.join('\n') || '  export default {}';
+      //t = template.template.replace(/"/g, "\\\"");
+
+    layout += '[\n';
+    template.template.forEach(function (line) {
+      layout += "    [\"" + (line.replace(/"/g, "\\\"")) + "\"],\n";
+    });
+    layout += "  ].join('\\n')";
+
+
+    script = [
+      script.replace(rx, replacement),
+      ("  " + objectName + ".template = " + layout + ";"),
+      ("  " + objectName + ".name = \"" + componentName + "\";"),
+      ("  " + objectName + " = Vue.extend(" + objectName + ");"),
+      ("  Vue.component(\"" + componentName + "\", " + objectName + ");"),
+      ("  module.exports = " + objectName + ";"),
+    ].join('\n');
+
+
+    console.log(script);
+      //'Vue.component("'+componentName+'", '+objectName+');\n'+
+      //'return '+objectName+';';
     return script;
   }
 
@@ -176,9 +217,16 @@ var VueB = (function () {
    */
 
   var VueComponent = (function () {
-
     var srcs = [];
     var srcs2 = [];
+    var _modules = {
+      'vue': Vue
+    };
+
+    if(window) {
+      window.require = requireModule;
+    }
+
     window.onload=function() {
       var i;
       var scripts = document.getElementsByTagName("script");
@@ -195,21 +243,47 @@ var VueB = (function () {
 
     };
 
+    function requireModule(name) {
+      return _modules[name];
+    }
+
     function loadScript(src) {
       console.log( src );
-      ComponentFactory.build(src, function (data, err) {
+      ComponentFactory.build(src, function (func, err) {
+
         if(err) {
           console.error(err);
           return;
         }
-        console.log(data.toString());
-      data(Vue);
-      var index = srcs2.indexOf(src);
-      srcs2.splice(index, 1);
-      if(srcs2.length === 0){
-        new Vue({el:'html'});
+
+        // execute the function
+        defineModule(src, func);
+        var index = srcs2.indexOf(src);
+        srcs2.splice(index, 1);
+        if(srcs2.length === 0) {
+          new Vue({el:'html'});
+          modulesLoaded();
+        }
+      });
+    }
+
+    function modulesLoaded() {
+      for (var k in _modules){
+        if (_modules.hasOwnProperty(k)) {
+          console.log(k + ':\n');
+          console.log(_modules[k].toString() +'\n');
+          console.log('\n');
+        }
       }
-    });
+    }
+
+    function defineModule(src, func) {
+      var
+        module = {},
+        require = requireModule;
+      console.log(func.toString());
+      func(module, require);
+      _modules[src] = module;
     }
 
     return {};

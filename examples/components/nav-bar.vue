@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-inverse navbar-fixed-top">
-    <container>
+    <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
@@ -16,20 +16,13 @@
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-      </div><!--/.nav-collapse -->
-    </container>
+      </div>
+    </div>
   </nav>
 </template>
 
 <script>
   export default {
-    props: ['title'],
-    methods: {
-      getChildren: function (id) {
-        return this.items.filter(function (el) {
-
-        })
-      }
-    }
-  }a
+    props: ['title']
+  }
 </script>

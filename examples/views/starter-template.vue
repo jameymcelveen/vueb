@@ -1,0 +1,27 @@
+<style>
+  body {
+    padding-top: 50px;
+  }
+  .starter-template {
+    padding: 40px 15px;
+    text-align: center;
+  }
+</style>
+
+<template>
+  <navbar title="Project Name">
+    <navbar-item href="#" active="true">Home</navbar-item>
+    <navbar-item href="#">About</navbar-item>
+    <navbar-item href="#">Contact</navbar-item>
+  </navbar>
+
+  <container>
+    <div class="starter-template">
+      <h1>Bootstrap starter template</h1>
+      <p class="lead">
+        Use this document as a way to quickly start any new project.<br>
+        All you get is this text and a mostly barebones HTML document.
+      </p>
+    </div>
+  </container>
+</template>

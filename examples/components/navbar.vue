@@ -14,7 +14,7 @@
         <ul class="nav navbar-nav">
           <slot></slot>
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
     </container>
   </nav>
 </template>
@@ -23,4 +23,5 @@
   export default {
     props: ['title']
   }
+  // import Container from './container.vue';
 </script>

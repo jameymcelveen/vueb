@@ -8,6 +8,8 @@ const SCRIPT_START = '<script>';
 const SCRIPT_END = '</script>';
 const STYLE_START = '<style>';
 const STYLE_END = '</style>';
+//const IMPORT_DEFAULT = /\s*import\s+(\S+)\s+from\s+['"](\S+)["'].*/g;
+const IMPORT_DEFAULT = /\s*import\s+(\S+)\s+from\s+['"](\S+)["'].*/;
 
 export default class TemplateParser {
 
@@ -42,6 +44,11 @@ export default class TemplateParser {
       } else if (inTemplete) {
         template.push(line);
       } else if (inScript) {
+        if(line.match(IMPORT_DEFAULT)) {
+          console.log('match');
+          line = line.replace(IMPORT_DEFAULT, "// var $1 = require('$2');");
+          console.log(line);
+        }
         script.push( line );
       } else if (inStyle) {
         style.push(line);
@@ -49,9 +56,9 @@ export default class TemplateParser {
     }
 
     return {
-      template: template.join(''),
-      script: script.join('\n'),
-      style: style.join('\n')
+      template: template,
+      script: script,
+      style: style
     };
 
   }
